@@ -2,6 +2,11 @@
   <div>
     <h1>我的上传面料</h1>
     <el-table :data="fabrics" style="width: 100%">
+      <el-table-column prop="imagePath" label="照片" width="200">
+        <template #default="scope">
+          <img :src="getImageUrl(scope.row.imagePath)" alt="面料图片" style="max-width: 100%; height: auto;" />
+        </template>
+      </el-table-column>
       <el-table-column prop="name" label="面料名称" width="180" />
       <el-table-column prop="materialName" label="材质" width="180" />
       <el-table-column prop="colorNames" label="颜色" />
@@ -72,6 +77,13 @@ export default {
     changePage(newPage) {
       this.page = newPage;
       this.fetchFabrics();
+    },
+    getImageUrl(imagePath) {
+      if (!imagePath) {
+        console.error("imagePath 未定义！");
+        return "";
+      }
+      return `${axios.defaults.baseURL}/uploads/${imagePath}`;
     },
   },
   mounted() {

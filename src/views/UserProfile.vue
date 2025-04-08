@@ -14,6 +14,14 @@
         <label for="phone">手机号：</label>
         <input id="phone" v-model="form.phone" type="text" />
       </div>
+
+      <div v-if="form.userType === 'supplier'" class="form-group">
+        <label for="supplierName">供应商名称：</label>
+        <input id="supplierName" v-model="form.supplierName" type="text"  />
+        <label for="description">供应商描述：</label>
+        <textarea id="description" v-model="form.description" rows="3" ></textarea>
+      </div>
+
       <button type="submit">保存修改</button>
     </form>
   </div>
@@ -30,14 +38,26 @@ export default {
         username: '', // 用户名
         email: '', // 邮箱
         phone: '', // 手机号
+        userType: '', // 用户类型
+        supplierName: '', // 供应商名称（仅供应商用户）
+        description: '', // 供应商描述（仅供应商用户）
       },
     };
   },
   methods: {
     async fetchProfile() {
       try {
-        const response = await axios.get('/api/user'); // 获取用户信息
-        this.form = response.data; // 将返回的数据填充到表单
+        const userResponse = await axios.get('/api/user'); // 获取用户信息
+        this.form.username = userResponse.data.username;
+        this.form.email = userResponse.data.email;
+        this.form.phone = userResponse.data.phone;
+        this.form.userType = userResponse.data.usertype;
+
+        // 如果是供应商，获取供应商信息
+        if (this.form.userType === 'supplier') {
+          this.form.supplierName = userResponse.data.suppliername;
+          this.form.description = userResponse.data.description;
+        }
       } catch (error) {
         console.error('获取用户信息失败：', error);
         alert('获取用户信息失败，请稍后重试！');
@@ -45,7 +65,7 @@ export default {
     },
     async updateProfile() {
       try {
-        await axios.put('/api/user/profile', this.form); // 提交修改后的信息
+        await axios.put('/api/user', this.form); // 提交修改后的信息
         alert('个人信息更新成功！');
       } catch (error) {
         console.error('更新个人信息失败：', error);
