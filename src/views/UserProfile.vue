@@ -1,30 +1,28 @@
 <template>
-  <div class="user-profile">
     <h1>个人信息</h1>
     <form @submit.prevent="updateProfile">
       <div class="form-group">
         <label for="username">用户名：</label>
-        <input id="username" v-model="form.username" type="text" disabled />
+        <input id="username" v-model="form.username" type="text" disabled style="width:100%;"/>
       </div>
       <div class="form-group">
         <label for="email">邮箱：</label>
-        <input id="email" v-model="form.email" type="email" />
+        <input id="email" v-model="form.email" type="email" style="width:100%;"/>
       </div>
       <div class="form-group">
         <label for="phone">手机号：</label>
-        <input id="phone" v-model="form.phone" type="text" />
+        <input id="phone" v-model="form.phone" type="text" style="width:100%;"/>
       </div>
 
       <div v-if="form.userType === 'supplier'" class="form-group">
         <label for="supplierName">供应商名称：</label>
-        <input id="supplierName" v-model="form.supplierName" type="text"  />
+        <input id="supplierName" v-model="form.supplierName" type="text"  style="width:100%;"/>
         <label for="description">供应商描述：</label>
-        <textarea id="description" v-model="form.description" rows="3" ></textarea>
+        <textarea id="description" v-model="form.description" rows=3 style="resize: none; width:100%;"></textarea>
       </div>
 
       <button type="submit">保存修改</button>
     </form>
-  </div>
 </template>
 
 <script>
@@ -81,7 +79,7 @@ export default {
 
 <style scoped>
 .user-profile {
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
